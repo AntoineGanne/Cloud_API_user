@@ -1,6 +1,6 @@
 package com.polytech.cloud.controller;
 
-import com.polytech.cloud.model.EntityUser;
+import com.polytech.cloud.model.EntityUsers;
 import com.polytech.cloud.repositories.EntityUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +21,7 @@ public class UserController {
     }
 
     @GetMapping("/user")
-    public List<EntityUser> getUsers() {
+    public List<EntityUsers> getUsers() {
         return unUtilisateurRepository.findAll();
     }
 
@@ -33,7 +33,7 @@ public class UserController {
 
     @PostMapping(value= "/user")
     @ResponseBody
-    public void insertUser(@RequestBody EntityUser entityUser) {
+    public void insertUser(@RequestBody EntityUsers entityUser) {
         unUtilisateurRepository.save(entityUser);
     }
 
