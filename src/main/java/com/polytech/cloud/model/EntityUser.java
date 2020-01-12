@@ -1,26 +1,35 @@
 package com.polytech.cloud.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
 import org.bson.codecs.pojo.annotations.BsonIgnore;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.PersistenceConstructor;
+import org.springframework.data.annotation.Reference;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.Map;
 
 @Document(collection = "users")
 public class EntityUser {
 
     @Id
+//    @Reference
 //    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private ObjectId id;
+    private String id;
 
     @Field(value = "birthDay")
-    private String birthDay;
+    @DateTimeFormat(pattern = "MM/dd/yyyy")
+    @JsonFormat(pattern = "MM/dd/yyyy")
+    private Date birthDay;
 
     @Field(value = "firstName")
     private String firstName;
@@ -32,17 +41,17 @@ public class EntityUser {
     private Map<String, Double> position;
 
 
-    public ObjectId getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(ObjectId id) { this.id = id; }
+    public void setId(String id) { this.id = id; }
 
-    public String getBirthDay() {
+    public Date getBirthDay() {
         return birthDay;
     }
 
-    public void setBirthDay(String birthDay) {
+    public void setBirthDay(Date birthDay) {
         this.birthDay = birthDay;
     }
 
