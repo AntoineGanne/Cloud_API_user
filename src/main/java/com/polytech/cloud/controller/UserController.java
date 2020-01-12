@@ -1,40 +1,46 @@
 package com.polytech.cloud.controller;
 
 import com.polytech.cloud.model.EntityUser;
-import com.polytech.cloud.repositories.EntityUserRepository;
+import com.polytech.cloud.repositories.RepositoryUser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@CrossOrigin
 @RequestMapping("/user")
 public class UserController {
 
-    private EntityUserRepository unUtilisateurRepository;
+    private final Logger LOG = LoggerFactory.getLogger(UserController.class);
 
-    // On initialise
+    private RepositoryUser repositoryUser;
+
     @Autowired
-    public UserController(EntityUserRepository utilisateurRepository) {
-        this.unUtilisateurRepository = utilisateurRepository;
+    public UserController(RepositoryUser utilisateurRepository) {
+        this.repositoryUser = utilisateurRepository;
     }
 
-    @GetMapping("/user")
-    public List<EntityUser> getUsers() {
-        return unUtilisateurRepository.findAll();
+    @GetMapping
+    public ResponseEntity<List<EntityUser>> getAllUsers() {
+        return ResponseEntity.ok(repositoryUser.findAll());
     }
 
-
-    @DeleteMapping(value= "/user")
-    public void deleteUserByUsername() {
-        unUtilisateurRepository.deleteAll();
-    }
-
-    @PostMapping(value= "/user")
+    @PostMapping
     @ResponseBody
-    public void insertUser(@RequestBody EntityUser entityUser) {
-        unUtilisateurRepository.save(entityUser);
+    public void replaceAllUsers(@Valid @RequestBody List<EntityUser> users) {
+        repositoryUser.deleteAll();
+        repositoryUser.saveAll(users);
     }
+
+    @DeleteMapping
+    public void deleteAllUsers() {
+        repositoryUser.deleteAll();
+    }
+
+
 
 }
