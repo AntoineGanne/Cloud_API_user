@@ -12,5 +12,9 @@ import java.util.Optional;
 @Repository
 public interface RepositoryUser extends MongoRepository<EntityUser, Integer> {
 
+    void deleteById(String id);
+
+    List<EntityUser> findByLastName(String lastName);
+
     Optional<EntityUser> findById(String id);
 }

@@ -1,0 +1,13 @@
+{
+  "properties": [
+    {
+      "name": "db.min-pool-size",
+      "type": "java.lang.Integer",
+      "description": "Minimal number of database connections to open."
+    },
+    {
+      "name": "db.max-pool-size",
+      "type": "java.lang.Integer",
+      "description": "Maximal number of database connections to open."
+    }
+  ] }
