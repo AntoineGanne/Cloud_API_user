@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import org.bson.codecs.pojo.annotations.BsonIgnore;
 import org.bson.types.ObjectId;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.annotation.Reference;
@@ -14,6 +15,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Null;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.Map;
@@ -27,19 +31,22 @@ public class EntityUser {
     private String id;
 
     @Field(value = "birthDay")
+//    @NotEmpty(message = "Birthday is mandatory") //TODO: Vérification de la date non vide.
     @DateTimeFormat(pattern = "MM/dd/yyyy")
     @JsonFormat(pattern = "MM/dd/yyyy")
     private Date birthDay;
 
     @Field(value = "firstName")
+    @NotEmpty(message = "First name is mandatory")
     private String firstName;
 
     @Field(value = "lastName")
+    @NotEmpty(message = "Last name is mandatory")
     private String lastName;
 
     @Field(value = "position")
+//    @NotEmpty(message = "Position is mandatory") //TODO: Vérification de la position non vide.
     private Map<String, Double> position;
-
 
     public String getId() {
         return id;
