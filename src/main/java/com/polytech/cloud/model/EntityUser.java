@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import org.bson.codecs.pojo.annotations.BsonIgnore;
 import org.bson.types.ObjectId;
 import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.Range;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.annotation.Reference;
@@ -15,8 +16,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import java.time.LocalDate;
 import java.util.Date;
@@ -31,7 +34,7 @@ public class EntityUser {
     private String id;
 
     @Field(value = "birthDay")
-//    @NotEmpty(message = "Birthday is mandatory") //TODO: Vérification de la date non vide.
+//    @NotEmpty(message = "Birthday is mandatory") //TODO: Vérification de (date non vide) ne marche pas.
     @DateTimeFormat(pattern = "MM/dd/yyyy")
     @JsonFormat(pattern = "MM/dd/yyyy")
     private Date birthDay;
@@ -44,9 +47,39 @@ public class EntityUser {
     @NotEmpty(message = "Last name is mandatory")
     private String lastName;
 
+    @Valid
     @Field(value = "position")
-//    @NotEmpty(message = "Position is mandatory") //TODO: Vérification de la position non vide.
-    private Map<String, Double> position;
+    private Position position;
+
+    // Une classe static interne permet de lier une position à un user (elle ne peut pas exister indépendamment d'un user).
+    public static class Position {
+
+        @Field(value = "lat")
+        @Range(min = -90, max = 90, message = "Position.latitude has to be within [-90,+90] range.")
+        @NotNull(message = "Position.latitude is mandatory")
+        private Double lat;
+
+        @Field(value = "lon")
+        @Range(min = -180, max = 180, message = "Position.longitude has to be within [-180,+180] range.")
+        @NotNull(message = "Position.longitude is mandatory")
+        private Double lon;
+
+        public Double getLat() {
+            return lat;
+        }
+
+        public void setLat(Double lat) {
+            this.lat = lat;
+        }
+
+        public Double getLon() {
+            return lon;
+        }
+
+        public void setLon(Double lon) {
+            this.lon = lon;
+        }
+    }
 
     public String getId() {
         return id;
@@ -78,11 +111,11 @@ public class EntityUser {
         this.lastName = lastName;
     }
 
-    public Map<String, Double> getPosition() {
+    public Position getPosition() {
         return position;
     }
 
-    public void setPosition(Map<String, Double> position) {
+    public void setPosition(Position position) {
         this.position = position;
     }
 
