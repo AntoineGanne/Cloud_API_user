@@ -7,8 +7,7 @@ before_script:
 
 build:
   stage: build
-  script: ./mvnw package
-
+  script: ./mvnw compile -v
 job:
   script:
   - echo "test job"
