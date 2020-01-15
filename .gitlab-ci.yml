@@ -8,7 +8,7 @@ before_script:
 build:
   stage: build
   script:
-    - ./mvnw compile --debug
+    - ./mvnw compile --debug --offline
 
 job:
   script:
