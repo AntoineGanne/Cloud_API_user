@@ -3,6 +3,7 @@ package com.polytech.cloud.service;
 import com.polytech.cloud.exception.NegativePageException;
 import com.polytech.cloud.exception.UserException;
 import com.polytech.cloud.exception.NegativePageException;
+import com.polytech.cloud.exception.UserException;
 import com.polytech.cloud.exception.UserNotFoundException;
 import com.polytech.cloud.model.EntityUser;
 import com.polytech.cloud.repositories.RepositoryUser;
