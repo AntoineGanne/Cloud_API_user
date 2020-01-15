@@ -1,4 +1,5 @@
 language: java
 script:
+  - echo "hello world"
   - chmod +x mvnw
   - mvn clean verify
