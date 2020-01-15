@@ -1,5 +1,6 @@
 package com.polytech.cloud.service;
 
+import com.polytech.cloud.exception.NegativePageException;
 import com.polytech.cloud.exception.UserNotFoundException;
 import com.polytech.cloud.model.EntityUser;
 import com.polytech.cloud.repositories.RepositoryUser;
@@ -11,11 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.parser.Entity;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class UserService {
@@ -38,9 +35,13 @@ public class UserService {
         return repositoryUser.findByLastName(lastName);
     }
 
-    public Page<EntityUser> findAll(int page) {
+    public Page<EntityUser> findAll(int page) throws NegativePageException {
         // nombre d'éléments par page
         int PAGE_SIZE = 100;
+
+        if (page < 0) {
+            throw new NegativePageException("L'index de la page doit être >= 0");
+        }
 
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
         return repositoryUser.findAll(pageable);
