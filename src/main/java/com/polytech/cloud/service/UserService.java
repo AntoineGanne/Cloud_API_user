@@ -1,6 +1,7 @@
 package com.polytech.cloud.service;
 
 import com.polytech.cloud.exception.NegativePageException;
+import com.polytech.cloud.exception.UserException;
 import com.polytech.cloud.exception.UserNotFoundException;
 import com.polytech.cloud.model.EntityUser;
 import com.polytech.cloud.repositories.RepositoryUser;
@@ -25,7 +26,7 @@ public class UserService {
     public UserService(RepositoryUser repositoryUser) {
         this.repositoryUser = repositoryUser;
     }
-    
+
     public EntityUser findById(String id) throws UserNotFoundException {
         return repositoryUser.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(String.format("Aucun utilisateur avec ID = '%s", id)));
@@ -57,13 +58,11 @@ public class UserService {
         return repositoryUser.saveAll(users);
     }
 
-    public EntityUser update(EntityUser oldUser, EntityUser newUser) {
-        newUser.setId(oldUser.getId());
-
-        return repositoryUser.save(newUser);
+    public EntityUser update(EntityUser oldUser) {
+        return repositoryUser.save(oldUser);
     }
 
-    public void delete(String id) {
+    public void delete(String id) throws UserException {
         repositoryUser.deleteById(id);
     }
 

@@ -17,10 +17,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
+import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.Map;
@@ -29,14 +26,13 @@ import java.util.Map;
 public class EntityUser {
 
     @Id
-//    @Reference
-//    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String id;
 
     @Field(value = "birthDay")
 //    @NotEmpty(message = "Birthday is mandatory") //TODO: Vérification de (date non vide) ne marche pas.
     @DateTimeFormat(pattern = "MM/dd/yyyy")
     @JsonFormat(pattern = "MM/dd/yyyy")
+    @Past
     private Date birthDay;
 
     @Field(value = "firstName")
@@ -51,7 +47,7 @@ public class EntityUser {
     @Field(value = "position")
     private Position position;
 
-    // Une classe static interne permet de lier une position à un user (elle ne peut pas exister indépendamment d'un user).
+    // Static donc n'a pas accès aux informations de la classe encapsulante (EntityUser).
     public static class Position {
 
         @Field(value = "lat")
