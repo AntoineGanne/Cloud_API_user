@@ -1,4 +1,4 @@
 language: java
 script:
+  - chmod +x mvnw
   - mvn clean verify
-
